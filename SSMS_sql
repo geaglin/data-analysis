@@ -1,0 +1,56 @@
+//foundational query (where/order by) // 
+SELECT 
+aa.AccountNumber,
+aa.ID,
+aa.Name,
+aa.Channel,
+aa.AgreementType,
+aa.Authorization
+FROM abc.dbo.aa_getaccountdata(NULL) AS aa
+WHERE 
+  aa.ID IS NOT NULL
+  AND aa.AccountNumber IS NOT NULL
+  AND aa.ParentID = '12CODE34' 
+  AND aa.Model <> 'Funding Account' 
+  AND aa.IsClosed = 0
+ORDER BY aa.ID DESC
+
+
+//join query//
+SELECT p.ProductName, c.CategoryName, s.CompanyName
+FROM Products p
+JOIN Categories c ON p.CategoryID = c.CategoryID
+JOIN Suppliers s ON p.SupplierID = s.SupplierID
+WHERE p.UnitPrice > 10
+ORDER BY c.CategoryName, p.ProductName;
+
+//Aggregate Query//
+SELECT 
+CustomerID, 
+COUNT(OrderID) AS TotalOrders, 
+AVG(OrderAmount) AS AverageOrderAmount 
+FROM Orders 
+GROUP BY CustomerID
+
+//case query//
+SELECT 
+OrderNumber,
+OrderDate,
+CASE 
+  WHEN TotalAmount < 1000 THEN 'Small Order'
+  WHEN TotalAmount >= 1000 AND TotalAmount < 5000 THEN 'Medium Order'
+  ELSE 'Large Order'
+END AS OrderSize
+FROM Orders
+
+//group by query//
+SELECT 
+product, 
+SUM(sales_amount) AS total_sales_amount
+FROM sales
+GROUP BY product
+
+
+//todo//
+change table names
+add having,calculated fields,etc.
